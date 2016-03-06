@@ -2,7 +2,6 @@ package snakify;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.Point;
 import javax.swing.*;
@@ -11,6 +10,7 @@ import java.util.LinkedList;
 
 
 class Snake extends JFrame{
+
 
 
     public static void main(String [] args){
@@ -29,28 +29,33 @@ class Snake extends JFrame{
     }
 
 
+
     private static class SnakePanel extends JPanel implements ActionListener{
 
         private LinkedList<Point> points = new LinkedList<>();
         Point food;
-        private final int CELLS = 10;
-        private final int SIDE = 60;
+
+        //TODO welcome window, choose field size
+        private final int WIDTH = 800, HEIGHT = 640;
+        private final int SIDE = 32;
+        private final int CELLSx = WIDTH/SIDE;
+        private final int CELLSy = HEIGHT/SIDE;
 
         private static int scores;
 
-        int DELAY = 450; //millis
+        int DELAY = 200; //millis
         private Timer timer;
 
 
         public SnakePanel(){
 
-            setPreferredSize(new Dimension(601, 601));
-            points.add(new Point(0,5));     //head
-            points.add(new Point(1,5));
-            points.add(new Point(2,5));
-            points.add(new Point(3,5));
-            points.add(new Point(4,5));
-            points.add(new Point(5,5));
+            setPreferredSize(new Dimension(WIDTH+1, HEIGHT+1));
+            points.add(new Point(0,8));     //head
+            points.add(new Point(1,8));
+            points.add(new Point(2,8));
+            points.add(new Point(3,8));
+            points.add(new Point(4,8));
+            points.add(new Point(5,8));
             setFocusable(true);
 
             generateFood();
@@ -60,7 +65,7 @@ class Snake extends JFrame{
 
 
         //tests
-        private boolean gameOver(int x, int y) { return (x >= CELLS || x < 0 || y >= CELLS || y < 0); }
+        private boolean gameOver(int x, int y) { return (x >= CELLSx || x < 0 || y >= CELLSy || y < 0); }
         private boolean inSnake(int x, int y) {return points.contains(new Point(x,y));}
 
         private void moveSnake(int x, int y){
@@ -82,8 +87,17 @@ class Snake extends JFrame{
                 Point tail = points.peekFirst();
                 points.addFirst(new Point(tail.x+1, tail.y+1));
                 scores+=5;
+                speedify();
                 generateFood();
                 repaint();
+            }
+        }
+
+        private void speedify(){
+            if (DELAY == 20) return;
+            if (scores % 25 == 0) {
+                DELAY -= 20;
+                timer.setDelay(DELAY);
             }
         }
 
@@ -102,8 +116,8 @@ class Snake extends JFrame{
         }
 
         private void generateFood(){
-            food = new Point((int) (Math.random() * 10),
-                             (int) (Math.random() * 10));
+            food = new Point((int) (Math.random() * CELLSx),
+                             (int) (Math.random() * CELLSy));
             if(points.contains(food)) generateFood();
         }
 
@@ -139,6 +153,15 @@ class Snake extends JFrame{
                     case ("DOWN"):  y = y + 1;break;
                     case ("UP"):    y = y - 1;break;
                 }
+                //check if snake already faces this direction
+                //if true, do nothing
+                Point neck = points.get(points.size()-2);
+                int diffx = Math.max(x, neck.x) - Math.min(x, neck.x);
+                int diffy = Math.max(y, neck.y) - Math.min(y, neck.y);
+                int samex = x - neck.x;
+                int samey = y - neck.y;
+                if(diffx == 2 && samey == 0 || diffy == 2 && samex == 0) return;
+
                 growSnake(x,y);
                 moveSnake(x, y);
             }
@@ -150,15 +173,15 @@ class Snake extends JFrame{
             super.paintComponent(g);
             //background
             g.setColor(Color.WHITE);
-            g.fillRect(0, 0, 601, 601);
+            g.fillRect(0, 0, WIDTH, HEIGHT);
 
             g.setColor(Color.GRAY);
             int x =0, y = 0;
-            while (x < 600){
+            while (x < WIDTH){
                 // verticals bars
-                g.drawLine(x, 0, x, 600);
+                g.drawLine(x, 0, x, HEIGHT);
                 //horizontal bars
-                g.drawLine(0, y, 600, y);
+                g.drawLine(0, y, WIDTH, y);
 
                 x += SIDE;
                 y += SIDE;
