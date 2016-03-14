@@ -5,6 +5,7 @@ import java.awt.*;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 
 
 /**
@@ -14,17 +15,16 @@ import java.awt.image.BufferedImage;
 public class Images {
 
     static Image cupcake1, cupcake2, bug, dynamite, explosion;
-
+    static ClassLoader img =  Images.class.getClassLoader();
 
     static{
         try {
-            cupcake1 = ImageIO.read(Images.class.getResource("../img/cupcake1.png"));
-            cupcake2 = ImageIO.read(Images.class.getResource("../img/cupcake2.png"));
-            bug = ImageIO.read(Images.class.getResource("../img/bug.png"));
-            dynamite = ImageIO.read(Images.class.getResource("../img/dynamite.png"));
+            cupcake1 = ImageIO.read(img.getResourceAsStream("img/cupcake1.png"));
+            cupcake2 = ImageIO.read(img.getResourceAsStream("img/cupcake2.png"));
+            bug = ImageIO.read(img.getResourceAsStream("img/bug.png"));
+            dynamite = ImageIO.read(img.getResourceAsStream("img/dynamite.png"));
 
-            explosion = new ImageIcon(Images.class.getResource("../img/explosion.gif")).getImage();
-           // explosion = ImageIO.read(Images.class.getResource("img/explosion.gif"));
-        } catch (IOException ex){}
+            explosion = new ImageIcon(ImageIO.read(img.getResourceAsStream("img/explosion.gif"))).getImage();
+        } catch (IOException ex){ ex.printStackTrace();}
     }
 }

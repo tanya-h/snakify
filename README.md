@@ -1,20 +1,22 @@
 # Snake #
-This is the very first simplistic impl of the Snake game.
+This is the next step of implementing the Snake. Now it can eat difreent fods. Eat a pink cupcake to grow, or a green one to getone more life. Eating a bug will shrink the Snake, and a dynamite will make it explode.
 TODO list: 
-	- decrease delay as more points are gained
-	- enable field resize  => refactor the code 
-	- enable field size choice (3 sizes)
-	- enable level choice (initial speed) 
-	- add poisoned food
-	- add skin patters
-	- add screan rotation? split the snake? let it explode?
-Open to your suggestions.
+	- fix the exploion animation
+	- add advanced tweaks.
+Still open to your suggestions.
 
 BUILD
 ~~~~
-$ javac Snake.java
+from the root dir
+$ javac -d . src/*.java
 ~~~
 RUN
 ~~~
-$ java Snake
+$ java snakify.Main
 
+OR
+Simply download the jar file.
+~~~
+RUN
+~~~
+$ java -jar snake1.2.jar

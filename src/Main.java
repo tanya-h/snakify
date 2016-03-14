@@ -1,5 +1,7 @@
 package snakify;
 
+import snakify.Images;
+
 import java.awt.*;
 import java.awt.Point;
 import java.awt.event.*;

@@ -16,7 +16,5 @@ public class SnakeRandomizer {
     public static int randomY(){
         return new Random().nextInt(Main.SnakePanel.CELLSy);
     }
-    public static int randomTreat(){
-        return new Random().nextInt(FoodType.values().length); //choose random treat
-    }
+    public static int randomTreat(){return new Random().nextInt(FoodType.values().length); //choose random treat}
 }
