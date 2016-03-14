@@ -16,7 +16,8 @@ $ java snakify.Main
 ~~~
 
 OR
-Simply download the jar file.
+Simply download the jar file and click on it.
+Alternatively:
 
 RUN
 ~~~
